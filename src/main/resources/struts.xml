@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <package name="PPMS" extends="struts-default" namespace="/">
+        <interceptors>
+            <interceptor name="authority" class="com.whut.interceptor.AuthorityInterceptor"/>
+        </interceptors>
+        <global-results>
+            <result name="login">login.jsp</result>
+        </global-results>
+
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="success">/main.jsp</result>
+            <allowed-methods>login</allowed-methods>
+        </action>
+        <!-- 测试一下authority拦截器 -->
+        <action name="employeeAction_*" class="employeeAction" method="{1}">
+            <result name="success">/WEB-INF/pages/employee.jsp</result>
+            <result name="test">/WEB-INF/pages/index.jsp</result>
+            <interceptor-ref name="defaultStack"/>
+            <interceptor-ref name="authority"/>
+            <allowed-methods>findEmployeeByPage,queryEmployee,getEmployee,addEmployee</allowed-methods>
+        </action>
+        <action name="departmentAction_*" class="departmentAction" method="{1}">
+            <result name="success">/WEB-INF/pages/department.jsp</result>
+            <allowed-methods>getAllDepartmentNames,findDepartmentByPage</allowed-methods>
+        </action>
+        <action name="employeeManageAction_*" class="employeeManageAction" method="{1}">
+            <result name="success">/WEB-INF/pages/employee.jsp</result>
+            <allowed-methods>addEmployee,updateEmployee,deleteEmployee</allowed-methods>
+        </action>
+    </package>
+    
+</struts>
